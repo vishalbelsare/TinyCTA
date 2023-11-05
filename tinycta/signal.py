@@ -34,7 +34,8 @@ def osc(prices, fast=32, slow=96, scaling=True):
     """
     diff = prices.ewm(com=fast - 1).mean() - prices.ewm(com=slow - 1).mean()
     if scaling:
-        s = diff.std()
+        f, g = 1 - 1 / fast, 1 - 1 / slow
+        s = np.sqrt(1.0 / (1 - f * f) - 2.0 / (1 - f * g) + 1.0 / (1 - g * g))
     else:
         s = 1
 
